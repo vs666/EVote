@@ -32,6 +32,10 @@ sudo apt install nodejs
 npm install create-react-app
 npx create-react-app app
 ```
+To start the server : 
+```bash
+npm start
+```
 
 ## Contribution
 
