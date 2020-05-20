@@ -31,6 +31,7 @@ npm install --save crypto-js
 sudo apt install nodejs
 npm install create-react-app
 npx create-react-app app
+```
 
 ## Contribution
 
