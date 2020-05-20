@@ -20,18 +20,12 @@ class Block {
     // tampering multiple hashes is of high complexity 
 
 
-    /*
-        Check this block of code as it is going into infinite loop for every value greater than 1
-    */
     mineBlock(difficulty) {
         while (this.hash.toString().substring(0, difficulty) !== Array(difficulty + 1).join("0")) {
             this.nonce++;
             this.hash = this.getHash();
-            // console.log(Array(difficulty + 1).join("0").toString());
-            // console.log(this.hash.toString().substring(0, difficulty));
-
+         
         }
-        // console.log("Block mined " + this.hash);
     }
 }
 
@@ -61,17 +55,14 @@ class BlockChain {
         this.totalVotes++;
         this.increaseDifficulty();
         this.pendingVotes.push(vote);
-        // console.log('old is ' + this.chain[this.chain.length - 1].hash.toString());
         let block = new Block(vote, Date.now(), this.chain[this.chain.length - 1].hash);
         block.mineBlock(this.difficulty);
         this.chain.push(block); // add block to the chain
-        // console.log('new is ' + this.chain[this.chain.length - 1].hash.toString());
     }
 
     countVotesOf(votee) {
         let votes = 0;
         for (let block of this.chain) {
-            // console.log(block.vote);
             if (block.vote.voted == votee) {
                 votes++;
             }
