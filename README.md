@@ -25,9 +25,12 @@ IIIT community is often faced with problems, that require attention of authoriti
 ```bash
 npm install --save crypto-js
 ```
-2. If you intend to contribute to the frontend 
+2. If you intend to use react-js
 
-3. If you intend to contribute to the backend
+```bash
+sudo apt install nodejs
+npm install create-react-app
+npx create-react-app app
 
 ## Contribution
 
