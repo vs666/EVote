@@ -43,4 +43,14 @@ To make a contribution, add your name to the CONTRIBUTORS.md file.
 
 To make a contribution, fork the repository and clone it. Then add the change to another branch and make a pull request.
 
+## Navigation Details
+
+For the time being, the URLs have to be manually navigated.
+
+### For voting app 
+URL:  localhost:PORT\vote
+
+### For petition making
+URL: localhost: PORT\petition
+
 
