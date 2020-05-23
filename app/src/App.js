@@ -15,6 +15,7 @@ import 'react-dropdown/style.css';
 import BlockChain from './blockchain'
 import Vote from './vote'
 
+
 const userStatus = [
   { 'username': 'A', 'done': false, 'login': false },
   { 'username': 'B', 'done': false, 'login': false },
@@ -25,8 +26,7 @@ const userStatus = [
   { 'username': 'G', 'done': false, 'login': false },
   { 'username': 'H', 'done': false, 'login': false },
   { 'username': 'I', 'done': false, 'login': false }
-]
-
+];
 const userDone = {
   'A': false,
   'B': false,
@@ -37,7 +37,7 @@ const userDone = {
   'G': false,
   'H': false,
   'I': false,
-}
+};
 
 const pswd = {
   'A': "a",
@@ -49,15 +49,59 @@ const pswd = {
   'G': "g",
   'H': "h",
   'I': "i",
+};
+
+const PetitionList = []
+
+
+function object() {
+  return new BlockChain();
+}
+PetitionList.push(["Petition Name", "Type your petition", object()]);
+
+function tabMap() {
+  const mystyleAll = {
+    margin: 300,
+    marginTop: 100,
+    fontWeight: 'bolder',
+    padding: "20px",
+  };
+  const mystyleHead = {
+    color: "White",
+    fontWeight: 'bolder',
+    fontSize: 30,
+    padding: "20px",
+    fontFamily: "Arial"
+  };
+  const mystyleRest = {
+    color: "White",
+    fontWeight: 'bolder',
+    fontSize: 15,
+    padding: "20px",
+    fontFamily: "Arial"
+  };
+  const ss={
+    padding: "20px"
+  }
+  return (
+    <table style={mystyleAll}> 
+      <thead style={mystyleHead}> 
+        <td>Name</td>
+        <td>Content</td>
+        <td>Votes</td>
+      </thead>
+      <tbody style={mystyleRest}>
+  {PetitionList.map(Petition =><tr><td style={ss}>{Petition[0]}</td><td style={ss}>{Petition[1]}</td><td style={ss}>{Petition[2].chain.length}</td></tr>)}
+      </tbody>
+    </table>
+  );
 }
 
-const Petition=[
-  ["Petition Name","Type your petition"]
-]
 
-const signed = {
-  'Petition' : []
-}
+
+// const PetitionList = [
+//   ["Petition Name", "Type your petition", object()]
+// ]
 
 const vo = new BlockChain();
 
@@ -65,15 +109,19 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: '000',
-    default : "Type your petition",
-    name : "Petition Name"
-  };
+    this.state = {
+      value: '000',
+      text: "Paste your petition",
+      name: "Petition Name"
+    };
+
+    this.handlePetitionChange = this.handlePetitionChange.bind(this);
+    this.handlePetitionSubmit = this.handlePetitionSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event, callback) {
+  handleChange(event) {
     this.setState({ value: event.target.value });
   }
   handleSubmit(event) {
@@ -89,7 +137,13 @@ class App extends React.Component {
         val = 0;
       }
       else {
-        userDone[person] = true;
+        var password = prompt("Please enter your password", "PASSWORD");
+        if (pswd[person] != password.toString()) {
+          alert("Wrong Password");
+        }
+        else {
+          userDone[person] = true;
+        }
       }
     } if (val == 1) {
       alert('Your selected candidate is: ' + this.state.value);
@@ -98,6 +152,40 @@ class App extends React.Component {
     }
     event.preventDefault();
     this.setState({ value: '000' })
+  }
+
+  handlePetitionChange(event) {
+    this.setState({ text: event.target.value });
+  }
+
+  // bug in handlePetitionChange
+
+
+  handlePetitionSubmit(event) {
+    var person = prompt("Please enter your name", "USERNAME");
+
+    if (person == null || person == "") {
+      return;
+    }
+    else {
+      if (userDone[person] == null) {
+        alert("incorrect username")
+      }
+      else {
+        var password = prompt("Please enter your password", "PASSWORD");
+        if (pswd[person] != password.toString()) {
+          alert("Wrong Password");
+        }
+        else {
+          var title = prompt("Please enter your petition title");
+          PetitionList.push([title, this.state.text.toString(), object()]);
+          PetitionList[PetitionList.length - 1][2].castVote({ 'elect': title.toString(), 'vote': 1 });
+          console.log("Added petition", title.toString(), this.state.text.toString());
+        }
+      }
+    }
+    this.setState({ text: "Type your petition" })
+    event.preventDefault();
   }
 
 
@@ -156,11 +244,11 @@ class App extends React.Component {
     }
     const petition = () => {
       return (
-        <form onSubmit={this.handleSubmit}>
+        <form style={mystyle} onSubmit={this.handlePetitionSubmit}>
           <label>
-            Enter Issue:
-          <textarea value={this.state.default} onChange={this.handleChange} />        </label>
-          <input type="submit" value="Submit" />
+            Enter Issue  :> <br></br>
+            <textarea value={this.state.text} onChange={this.handlePetitionChange} rows="20" cols="120" />        </label>
+          <br></br><input type="submit" value="Submit" />
         </form>
       );
     }
@@ -184,21 +272,19 @@ class App extends React.Component {
     return (
       <div>
 
-        {/* <div>
-          <Router>
-            <Route path="/result" component={showWinner} />
-          </Router>
-        </div> */}
-
         <div>
           <Router>
             <Route path="/vote" component={votePage} />
           </Router>
         </div>
-
         <div>
           <Router>
             <Route path="/petition" component={petition} />
+          </Router>
+        </div>
+        <div>
+          <Router>
+            <Route path="/petition" component={tabMap} />
           </Router>
         </div>
       </div>
