@@ -77,6 +77,7 @@ class BlockChain {
             }
         }
         console.log("Candidate " + votee + " got " + votes + " votes.")
+        return votes;
     }
 
     getBlock() {
