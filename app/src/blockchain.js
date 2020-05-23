@@ -51,6 +51,10 @@ class BlockChain {
         }
     }
 
+    getSize(){
+        return this.chain.length;
+    }
+
     castVote(vote) {
         this.totalVotes++;
         this.increaseDifficulty();

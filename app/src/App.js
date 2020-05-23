@@ -59,6 +59,10 @@ function object() {
 }
 PetitionList.push(["Petition Name", "Type your petition", object()]);
 
+function min(a, b) {
+  return parseInt(a) < parseInt(b) ? a : b;
+}
+
 function tabMap() {
   const mystyleAll = {
     margin: 300,
@@ -80,28 +84,23 @@ function tabMap() {
     padding: "20px",
     fontFamily: "Arial"
   };
-  const ss={
+  const ss = {
     padding: "20px"
   }
   return (
-    <table style={mystyleAll}> 
-      <thead style={mystyleHead}> 
+    <table style={mystyleAll}>
+      <thead style={mystyleHead}>
         <td>Name</td>
         <td>Content</td>
         <td>Votes</td>
       </thead>
       <tbody style={mystyleRest}>
-  {PetitionList.map(Petition =><tr><td style={ss}>{Petition[0]}</td><td style={ss}>{Petition[1]}</td><td style={ss}>{Petition[2].chain.length}</td></tr>)}
+        {PetitionList.map(Petition => <tr><td style={ss}>{Petition[0]}</td><td style={ss}>{Petition[1].substring(0, min(Petition[1].length, 15))}</td><td style={ss}>{Petition[2].getSize() - 1}</td></tr>)}
       </tbody>
     </table>
   );
 }
 
-
-
-// const PetitionList = [
-//   ["Petition Name", "Type your petition", object()]
-// ]
 
 const vo = new BlockChain();
 
@@ -110,11 +109,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      pet: 'Petition Name',
       value: '000',
       text: "Paste your petition",
       name: "Petition Name"
     };
 
+    this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
     this.handlePetitionChange = this.handlePetitionChange.bind(this);
     this.handlePetitionSubmit = this.handlePetitionSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -179,12 +181,47 @@ class App extends React.Component {
         else {
           var title = prompt("Please enter your petition title");
           PetitionList.push([title, this.state.text.toString(), object()]);
-          PetitionList[PetitionList.length - 1][2].castVote({ 'elect': title.toString(), 'vote': 1 });
+          PetitionList[PetitionList.length - 1][2].castVote({ 'elect': title.toString(), 'vote': 0 });
           console.log("Added petition", title.toString(), this.state.text.toString());
         }
       }
     }
-    this.setState({ text: "Type your petition" })
+    this.setState({ text: "Paste your petition" })
+    event.preventDefault();
+  }
+
+
+  handleFormChange(event) {
+    this.setState({ pet: event.target.value });
+  }
+
+  handleFormSubmit(event) {
+    var person = prompt("Please enter your name", "USERNAME");
+
+    if (person == null || person == "") {
+      return;
+    }
+    else {
+      if (userDone[person] == null) {
+        alert("incorrect username")
+      }
+      else {
+        var password = prompt("Please enter your password", "PASSWORD");
+        if (pswd[person] != password.toString()) {
+          alert("Wrong Password");
+        }
+        else {
+
+          for (let x = 0; x < PetitionList.length; x++) {
+            if (PetitionList[x][0] == this.state.pet) {
+              PetitionList[x][2].castVote({ 'elect': PetitionList[x][0], 'vote': 0 });
+              console.log("Added vote");
+            }
+          }
+        }
+      }
+    }
+    this.setState({ pet : "Petition Name" })
     event.preventDefault();
   }
 
@@ -253,6 +290,17 @@ class App extends React.Component {
       );
     }
 
+    const upvote = () => {
+      return (
+        <form onSubmit={this.handleFormSubmit}>
+          <label>
+            Name:
+            <input type="text" value={this.state.pet} onChange={this.handleFormChange} />        </label>
+          <input type="submit" value="Submit" />
+        </form>
+      );
+    }
+
     const login = () => {
       return (
         <div>
@@ -285,6 +333,12 @@ class App extends React.Component {
         <div>
           <Router>
             <Route path="/petition" component={tabMap} />
+          </Router>
+        </div>
+
+        <div>
+          <Router>
+            <Route path="/petition" component={upvote} />
           </Router>
         </div>
       </div>
