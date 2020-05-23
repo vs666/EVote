@@ -48,9 +48,9 @@ To make a contribution, fork the repository and clone it. Then add the change to
 For the time being, the URLs have to be manually navigated.
 
 ### For voting app 
-URL:  localhost:PORT\vote
+URL:  localhost:PORT/vote
 
 ### For petition making
-URL: localhost: PORT\petition
+URL: localhost: PORT/petition
 
 
