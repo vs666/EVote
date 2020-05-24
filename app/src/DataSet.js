@@ -1,4 +1,3 @@
-
 const userStatus = [
     { 'username': 'A', 'done': false, 'login': false },
     { 'username': 'B', 'done': false, 'login': false },
@@ -35,4 +34,6 @@ const pswd = {
 };
 
 const PetitionList = []
-// const vo = new BlockChain();
+
+
+export { PetitionList, pswd, userDone, userStatus}

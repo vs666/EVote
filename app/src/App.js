@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Card, CardBody, CardGroup, Col, Container, Input, InputGroup, InputGroupAddon, InputGroupText, Row, NavLink } from 'reactstrap';
-
+import EssayForm from './TextAr'
+import InputForm from './Input'
+import Table from './TabMap'
+import { userDone, pswd, userStatus, PetitionList } from './DataSet'
 import {
   BrowserRouter as Router,
   Route,
@@ -10,53 +13,16 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import ReactDOM from 'react-dom'
 import './App.css';
 import 'react-dropdown/style.css';
 import BlockChain from './blockchain'
 import Vote from './vote'
 
-
-const userStatus = [
-  { 'username': 'A', 'done': false, 'login': false },
-  { 'username': 'B', 'done': false, 'login': false },
-  { 'username': 'C', 'done': false, 'login': false },
-  { 'username': 'D', 'done': false, 'login': false },
-  { 'username': 'E', 'done': false, 'login': false },
-  { 'username': 'F', 'done': false, 'login': false },
-  { 'username': 'G', 'done': false, 'login': false },
-  { 'username': 'H', 'done': false, 'login': false },
-  { 'username': 'I', 'done': false, 'login': false }
-];
-const userDone = {
-  'A': false,
-  'B': false,
-  'C': false,
-  'D': false,
-  'E': false,
-  'F': false,
-  'G': false,
-  'H': false,
-  'I': false,
-};
-
-const pswd = {
-  'A': "a",
-  'B': "b",
-  'C': "c",
-  'D': "d",
-  'E': "e",
-  'F': "f",
-  'G': "g",
-  'H': "h",
-  'I': "i",
-};
-
-const PetitionList = []
-
-
 function object() {
   return new BlockChain();
 }
+export { object }
 PetitionList.push(["Petition Name", "Type your petition", object()]);
 
 function min(a, b) {
@@ -64,41 +30,7 @@ function min(a, b) {
 }
 
 function tabMap() {
-  const mystyleAll = {
-    margin: 300,
-    marginTop: 100,
-    fontWeight: 'bolder',
-    padding: "20px",
-  };
-  const mystyleHead = {
-    color: "White",
-    fontWeight: 'bolder',
-    fontSize: 30,
-    padding: "20px",
-    fontFamily: "Arial"
-  };
-  const mystyleRest = {
-    color: "White",
-    fontWeight: 'bolder',
-    fontSize: 15,
-    padding: "20px",
-    fontFamily: "Arial"
-  };
-  const ss = {
-    padding: "20px"
-  }
-  return (
-    <table style={mystyleAll}>
-      <thead style={mystyleHead}>
-        <td>Name</td>
-        <td>Content</td>
-        <td>Votes</td>
-      </thead>
-      <tbody style={mystyleRest}>
-        {PetitionList.map(Petition => <tr><td style={ss}>{Petition[0]}</td><td style={ss}>{Petition[1].substring(0, min(Petition[1].length, 15))}</td><td style={ss}>{Petition[2].getSize() - 1}</td></tr>)}
-      </tbody>
-    </table>
-  );
+  return <Table />;
 }
 
 
@@ -221,7 +153,7 @@ class App extends React.Component {
         }
       }
     }
-    this.setState({ pet : "Petition Name" })
+    this.setState({ pet: "Petition Name" })
     event.preventDefault();
   }
 
@@ -272,7 +204,6 @@ class App extends React.Component {
         }
         console.log(vo.countVotesOf(toString(x)));
       }
-      // let can = "" + index;
       return (
         <div>
           Candidate {index} Won the elections
@@ -280,25 +211,11 @@ class App extends React.Component {
       );
     }
     const petition = () => {
-      return (
-        <form style={mystyle} onSubmit={this.handlePetitionSubmit}>
-          <label>
-            Enter Issue  :> <br></br>
-            <textarea value={this.state.text} onChange={this.handlePetitionChange} rows="20" cols="120" />        </label>
-          <br></br><input type="submit" value="Submit" />
-        </form>
-      );
+      return (<EssayForm />);
     }
 
     const upvote = () => {
-      return (
-        <form onSubmit={this.handleFormSubmit}>
-          <label>
-            Name:
-            <input type="text" value={this.state.pet} onChange={this.handleFormChange} />        </label>
-          <input type="submit" value="Submit" />
-        </form>
-      );
+      return <InputForm />
     }
 
     const login = () => {
