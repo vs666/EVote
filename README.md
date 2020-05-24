@@ -24,16 +24,6 @@ To make a contribution, add your name to the CONTRIBUTORS.md file.
 To make a contribution, fork the repository.
 Now, follow the usage instructions and change the first line ssh to the forked repository ssh 
 
-## Navigation Details
-
-For the time being, the URLs have to be manually navigated.
-
-### For voting app 
-URL:  localhost:PORT/vote
-
-### For petition making
-URL: localhost: PORT/petition
-
 
 # Usage Instructions
 
@@ -48,9 +38,7 @@ There, install the dependencies
  sudo apt update
  sudo apt upgrade
  sudo apt install node
- npm install --save crypto-js
- npm install react react-dom reactstrap react-router-dom 
- npm install create-react-app
+ npm install
  ```
 Now run the code using 
 
