@@ -23,7 +23,7 @@ function object() {
   return new BlockChain();
 }
 export { object }
-PetitionList.push(["Petition Name", "Type your petition", object()]);
+PetitionList.push(["Cross Entry", "This petition suggests a gender neutral approach to collaboration and lifestyle of college peer. Thus we believe that cross entry should be allowed in the college.", object()]);
 
 function min(a, b) {
   return parseInt(a) < parseInt(b) ? a : b;
@@ -170,25 +170,25 @@ class App extends React.Component {
 
           <form style={mystyle} onSubmit={this.handleSubmit}>
             <label >
-              Pick your Neta  :
+              FC Elections  :
             <br></br>
-            Candidate 1 : {vo.countVotesOf("1")} votes
+            Srinath Nair: {vo.countVotesOf("1")} votes
             <br></br>
-            Candidate 2 : {vo.countVotesOf("2")} votes
+            Bhavyajeet Singh: {vo.countVotesOf("2")} votes
             <br></br>
-            Candidate 3 : {vo.countVotesOf("3")} votes
+            Shivaan Sehgal: {vo.countVotesOf("3")} votes
             <br></br>
-            Candidate 4 : {vo.countVotesOf("4")} votes
+            Priyank Modi: {vo.countVotesOf("4")} votes
             <br></br>
-            Candidate 5 : {vo.countVotesOf("5")} votes
+            Sachin Chandani: {vo.countVotesOf("5")} votes
             <br></br>
               <select value={this.state.value} onChange={this.handleChange}>
-                <option value="0">NULL</option>
-                <option value="1">Candidate 1</option>
-                <option value="2">Candidate 2</option>
-                <option value="3">Candidate 3</option>
-                <option value="4">Candidate 4</option>
-                <option value="5">Candidate 5</option>
+                <option value="0">NO-ONE</option>
+                <option value="1">Srinath</option>
+                <option value="2">Bhavyajeet</option>
+                <option value="3">Shivaan</option>
+                <option value="4">Priyank</option>
+                <option value="5">Sachin</option>
               </select>
             </label>
             <input type="submit" value="Submit" />
@@ -234,9 +234,32 @@ class App extends React.Component {
       padding: "10px",
       fontFamily: "Arial"
     };
+    const f1 = () => {
+      document.location.href = '../vote';
+    }
+
+    const f2 = () => {
+      console.log("f2");
+      document.location.href = '../petition';
+    }
+    const homePage = () => {
+      return (
+        <div>
+          <button onClick={f1} >Vote</button>
+          <button onClick={f2} >Petition</button>
+        </div>
+      );
+    }
     return (
       <div>
 
+
+        <div >
+          <Router>
+            <Route path="/" component={homePage} />
+          </Router>
+
+        </div>
         <div>
           <Router>
             <Route path="/vote" component={votePage} />
@@ -258,6 +281,7 @@ class App extends React.Component {
             <Route path="/petition" component={upvote} />
           </Router>
         </div>
+
       </div>
     );
   }
